@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +60,7 @@ public class NewListActivity extends Activity {
 		
 		final String[][] bill = new String[garments.size()][3];
 		
-		
+		TableLayout tb = new TableLayout(this);
 		for (int i = 0; i < garments.size(); i++) {
 
 			String garment_name = garments.get(i).getName(); 
@@ -71,6 +73,9 @@ public class NewListActivity extends Activity {
 		
 			
 			
+			
+			TableRow tr = new TableRow(this);
+			
 			LinearLayout lh = new LinearLayout(this);
 			lh.setOrientation(LinearLayout.HORIZONTAL);
 			
@@ -79,20 +84,20 @@ public class NewListActivity extends Activity {
 			tv.setTextSize(20);
 			tv.setText(garment_name);
 			tv.setPadding(0, 0, 20, 10);
-			lh.addView(tv);
+			tr.addView(tv);
 			
 		    final EditText et = new EditText(getApplicationContext());
 		    et.setTextSize(15);
 		    et.setEms(5);
 		    et.setInputType(InputType.TYPE_CLASS_NUMBER);
-		    lh.addView(et);
+		    tr.addView(et);
 		    
 			TextView tc = new TextView(getApplicationContext());
 			tc.setTextSize(20);
 			tc.setText(Double.toString(garment_cost));
 			tc.setPadding(20, 0, 0, 10);
 			
-			lh.addView(tc);
+			tr.addView(tc);
 			
 
 			final TextView cost = new TextView(getApplicationContext());
@@ -100,7 +105,7 @@ public class NewListActivity extends Activity {
 			cost.setText("Cost");
 			cost.setPadding(20, 0, 0, 10);
 			costs.add(cost);
-			lh.addView(cost);
+			tr.addView(cost);
 			
 
 		    et.addTextChangedListener(new TextWatcher(){
@@ -130,13 +135,13 @@ public class NewListActivity extends Activity {
 		    
 		    
 		    
-			ll.addView(lh);
+			tb.addView(tr);
 
 		}
 		
-
-		LinearLayout lo = new LinearLayout(this);
-		lo.setOrientation(LinearLayout.HORIZONTAL);
+		
+		
+		TableRow tr = new TableRow(this);
 		
 		tt.setPadding(0, 20,50,0);
 		
@@ -165,12 +170,14 @@ public class NewListActivity extends Activity {
 		});
 		
 		
-		lo.addView(tt);
-		lo.addView(b);
+		tr.addView(tt);
+		tr.addView(b);
 		
 		
 		
-		ll.addView(lo);
+		tb.addView(tr);
+		
+		ll.addView(tb);
 		
 		this.setContentView(sv);
 		controller.close();

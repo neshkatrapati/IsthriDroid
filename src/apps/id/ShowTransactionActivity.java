@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 public class ShowTransactionActivity extends Activity {
@@ -61,6 +63,8 @@ public class ShowTransactionActivity extends Activity {
 		
 		GarmentsController gc = new GarmentsController(getApplicationContext());
 		gc.open();
+		TableLayout tb = new TableLayout(this);
+		
 		for (int i = 0; i < list.size(); i++) {
 
 			Transaction it = list.get(i);
@@ -71,9 +75,8 @@ public class ShowTransactionActivity extends Activity {
 
 			String garment_name = gc.getGarment(g_id).getName();
 
-			LinearLayout lh = new LinearLayout(this);
-			lh.setOrientation(LinearLayout.HORIZONTAL);
-
+			TableRow lh = new TableRow(this);
+			
 			TextView tv = new TextView(getApplicationContext());
 			tv.setTextSize(20);
 			tv.setText(garment_name);
@@ -94,9 +97,10 @@ public class ShowTransactionActivity extends Activity {
 
 			lh.addView(cost);
 
-			ll.addView(lh);
+			tb.addView(lh);
 
 		}
+		ll.addView(tb);
 		gc.close();
 		LinearLayout lh = new LinearLayout(this);
 		lh.setOrientation(LinearLayout.HORIZONTAL);
@@ -125,7 +129,7 @@ public class ShowTransactionActivity extends Activity {
 		final TextView e1 = new TextView(getApplicationContext());
 		e1.setTextSize(20);
 		e1.setText(" Rs");
-		e1.setPadding(0, 0, 0, 10);
+		e1.setPadding(0, 0, 20, 10);
 
 		Button b = new Button(getApplicationContext());
 		b.setText("Update");

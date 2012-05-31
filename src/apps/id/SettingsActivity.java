@@ -95,9 +95,21 @@ public class SettingsActivity extends Activity {
 					GarmentsController controller = new GarmentsController(
 							getApplicationContext());
 					controller.open();
+					
+					if(controller.checkIfAlreadyPresent(name)){
+						
+						
+						AlertDialog show = new AlertDialog.Builder(SettingsActivity.this)
+						.setTitle("Duplicate Insertion")
+						.setMessage(name+" Exists Already!!")
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setNegativeButton(android.R.string.no, null).show();
+						
+					}
 
+					else{	
 					controller.createGarment(name, Double.parseDouble(cost));
-
+					}
 					controller.close();
 					et.setText("");
 					et2.setText("");
@@ -159,41 +171,58 @@ public class SettingsActivity extends Activity {
 			lh.addView(tc);
 
 			Button b = new Button(this);
-			b.setText("X");
+			b.setText("Edit");
 			b.setPadding(10, 0, 0, 0);
-			b.setBackgroundColor(Color.RED);
-			b.setEms(1);
+			b.setEms(4);
 
 			b.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					
+					final LinearLayout lhx = new LinearLayout(SettingsActivity.this);
+					lhx.setOrientation(LinearLayout.HORIZONTAL);
+					
+					final TextView tv = new TextView(getApplicationContext());
+					tv.setTextSize(20);
+					tv.setText("Edit: ");
+					tv.setPadding(0, 0, 20, 10);
+					lhx.addView(tv);
+
+					
+					final EditText input = new EditText(SettingsActivity.this);
+					input.setText(garment_name);
+					input.setEms(5);
+					
+					final EditText input1 = new EditText(SettingsActivity.this);
+					input1.setInputType(InputType.TYPE_CLASS_NUMBER);
+					input1.setText(Double.toString(garment_cost));
+					input1.setEms(5);
+					
+					lhx.addView(input);
+					lhx.addView(input1);
+					
 					AlertDialog show = new AlertDialog.Builder(SettingsActivity.this)
-					.setTitle("Delete Confirmation")
-					.setMessage("Do you really want to delete "+garment_name+" ?")
-					.setIcon(android.R.drawable.ic_dialog_alert)
+					.setTitle("Edit "+garment_name)
+					.setView(lhx)
+					.setIcon(android.R.drawable.ic_dialog_info)
 					.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 
 					    public void onClick(DialogInterface dialog, int whichButton) {
 					    	final GarmentsController c = new GarmentsController(
 									getApplicationContext());
 							c.open();
-
-							Garment g = new Garment();
-							g.setId((int) garment_id);
-							c.deleteGarment(g);
+							c.updateGarment(garment_id, input.getText().toString(), input1.getText().toString());
 							c.close();
 							showStuff();
 					    }})
 					 .setNegativeButton(android.R.string.no, null).show();
 					
-					
 				}
 
 			});
 
-			//lh.addView(b);
+			lh.addView(b);
 
 			ll.addView(lh);
 

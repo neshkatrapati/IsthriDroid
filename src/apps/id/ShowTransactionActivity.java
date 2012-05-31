@@ -137,8 +137,6 @@ public class ShowTransactionActivity extends Activity {
 				final EditText input = new EditText(ShowTransactionActivity.this);
 				input.setInputType(InputType.TYPE_CLASS_NUMBER);
 				
-				
-
 				new AlertDialog.Builder(ShowTransactionActivity.this)
 			    .setTitle("Update Status")
 			    .setMessage("Enter Paid Amt")

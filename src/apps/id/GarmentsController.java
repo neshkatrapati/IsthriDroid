@@ -99,6 +99,39 @@ public class GarmentsController {
 		
 		
 	}
+	public void updateGarment(long _id,String name,String cost){
+		ContentValues c =  new ContentValues();
+		c.put("name", name);
+		c.put("cost", cost);
+	    database.beginTransaction();
 
+		int rows = database.update("garments", c , "_id = "+Long.toString(_id) , null);
+		
+		database.setTransactionSuccessful();
+		database.endTransaction();
+		
+		
+	}
+
+	public boolean checkIfAlreadyPresent(String garment_name) {
+
+		// String[] columns = {"_id","g_id","t_id","qty","tcost","cdate"};
+		String[] columns = { "_id", "name", "cost", "cdate", "mdate" };
+		Cursor cursor = database.query("garments", columns, "name" + " like '"
+				+ garment_name + "'", null, null, null, null);
+
+		cursor.moveToFirst();
+		
+		int rows = cursor.getCount();
+		
+		cursor.close();
+		
+		if(rows > 0)
+			return true;
+		else
+			return false;
+		
+		
+	}
 	
 }

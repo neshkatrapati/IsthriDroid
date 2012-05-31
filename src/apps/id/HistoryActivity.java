@@ -5,7 +5,12 @@ import java.util.List;
 import android.app.ListActivity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.provider.UserDictionary.Words;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -22,7 +27,7 @@ public class HistoryActivity extends ListActivity {
 		super.onCreate(savedInstanceState);
 
 		
-		setListAdapter(new ArrayAdapter<String>(this, R.layout.history,getData()));
+		setListAdapter(new ArrayAdapter<Spannable>(this, R.layout.history,getData()));
 
 		ListView listView = getListView();
 		listView.setTextFilterEnabled(true);
@@ -59,14 +64,14 @@ public class HistoryActivity extends ListActivity {
 		toast.show();
 
 	}
-	public String[] getData(){
+	public Spannable[] getData(){
 		
 		TransactionsHelper t = new TransactionsHelper(this);
 		t.open();
 		
 		List<Integer> transactions = t.getTransactionList();
 		
-		String[] data = new String[transactions.size()];
+		Spannable[] data = new Spannable[transactions.size()];
 		
 		for (int i = 0; i < transactions.size(); i++) {
 
@@ -75,7 +80,22 @@ public class HistoryActivity extends ListActivity {
 			String cdate = tr.getCdate();
 			String Total = Double.toString(tr.getTotal());
 			
-			data[i] = Integer.toString(t_id)+" - " + cdate + " - "+ Total + " Rs";
+			String txt = Integer.toString(t_id)+" - " + cdate + " - "+ Total + " Rs " + tr.hasPaid();
+			
+			Spannable WordtoSpan = new SpannableString(txt);
+			String Status = tr.hasPaid();
+			
+			if(Status.equals("Paid")){
+				
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.GREEN), txt.length()-4, txt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+				
+			}     
+			else{
+				
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), txt.length()-Status.length(), txt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
+			
+			data[i] = WordtoSpan;
 			
 		}
 		

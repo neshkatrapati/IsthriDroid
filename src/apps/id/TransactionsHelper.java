@@ -44,19 +44,28 @@ public void createTransaction(int g_id,int tid,int qty,double cost) {
 }
 public Transaction getTransaction(int t_id){
 	
+	
 	List<Transaction> garments = new ArrayList<Transaction>();
-
+	
 	//String[] columns = {"_id","g_id","t_id","qty","tcost","cdate"};
 	Cursor cursor = database.rawQuery("select distinct(cdate) from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
 	cursor.moveToFirst();
 	
 	Transaction t = new Transaction();
+	t.setId(t_id);
 	t.setCdate(cursor.getString(0));
 	
 	cursor = database.rawQuery("select sum(tcost) from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
 	cursor.moveToFirst();
-	
+
+		
 	t.setTotal(cursor.getDouble(0));
+	
+	
+	cursor = database.rawQuery("select distinct(paid) from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
+	cursor.moveToFirst();
+	
+	t.setPaid(cursor.getDouble(0));
 	
 	// Make sure to close the cursor
 	cursor.close();
@@ -126,7 +135,18 @@ public String now() {
     return sdf.format(cal.getTime());
 
   }
+public void updatePaid(int t_id,double paid){
+	ContentValues c =  new ContentValues();
+	c.put("paid", Double.toString(paid));
+    database.beginTransaction();
 
+	int rows = database.update("transactions", c , "t_id = "+Integer.toString(t_id) , null);
+	
+	database.setTransactionSuccessful();
+	database.endTransaction();
+	
+	
+}
 public void deleteGarment(Garment garment) {
 	long id = garment.getId();
 	

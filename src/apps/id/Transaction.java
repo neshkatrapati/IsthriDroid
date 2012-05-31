@@ -62,6 +62,14 @@ public class Transaction {
 		this.cost = cost;
 	}
 	
+	public String hasPaid(){
+		
+		if (this.paid == this.total){
+			
+			return  "Paid";
+		}
+		return "BAL "+Double.toString(this.total - this.paid) + " Rs";
+	}
 	
 
 }

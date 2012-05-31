@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<AbsoluteLayout
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <Button
+        android:id="@+id/newlist"
+        android:layout_width="132dp"
+        android:layout_height="112dp"
+        android:layout_x="28dp"
+        android:layout_y="103dp"
+        android:text="New List"
+        android:onClick="newList"
+         />
+
+    <Button
+        android:id="@+id/viewsub"
+        android:layout_width="132dp"
+        android:layout_height="112dp"
+        android:layout_x="166dp"
+        android:layout_y="103dp"
+        android:text="View Submissions" 
+        android:onClick="history"
+        />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="248dp"
+        android:layout_height="wrap_content"
+        android:layout_x="36dp"
+        android:layout_y="24dp"
+        android:text="Welcome to IsthriDroid!"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <Button
+        android:id="@+id/settings"
+        android:layout_width="132dp"
+        android:layout_height="110dp"
+        android:layout_x="28dp"
+        android:layout_y="232dp"
+        android:text="Settings"
+        android:onClick="settings"
+           />
+
+    <Button
+        android:id="@+id/stats"
+        android:layout_width="132dp"
+        android:layout_height="112dp"
+        android:layout_x="167dp"
+        android:layout_y="230dp"
+        android:text="Stats" />
+
+</AbsoluteLayout>

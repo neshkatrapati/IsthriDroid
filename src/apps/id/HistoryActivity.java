@@ -80,7 +80,7 @@ public class HistoryActivity extends ListActivity {
 			String cdate = tr.getCdate();
 			String Total = Double.toString(tr.getTotal());
 			
-			String txt = Integer.toString(t_id)+" - " + cdate + " - "+ Total + " Rs " + tr.hasPaid();
+			String txt = Integer.toString(t_id)+" - " + cdate + " - "+ Total + " Rs BAL: " + tr.hasPaid();
 			
 			Spannable WordtoSpan = new SpannableString(txt);
 			String Status = tr.hasPaid();
@@ -90,11 +90,14 @@ public class HistoryActivity extends ListActivity {
 				WordtoSpan.setSpan(new ForegroundColorSpan(Color.GREEN), txt.length()-4, txt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 				
 			}     
+			else if (Status.startsWith("-")){
+				
+				WordtoSpan.setSpan(new ForegroundColorSpan(Color.BLUE), txt.length()-Status.length(), txt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			}
 			else{
 				
 				WordtoSpan.setSpan(new ForegroundColorSpan(Color.RED), txt.length()-Status.length(), txt.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 			}
-			
 			data[i] = WordtoSpan;
 			
 		}

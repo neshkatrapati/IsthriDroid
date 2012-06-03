@@ -68,7 +68,7 @@ public class Transaction {
 			
 			return  "Paid";
 		}
-		return "BAL "+Double.toString(this.total - this.paid) + " Rs";
+		return Double.toString(this.total - this.paid) + " Rs";
 	}
 	
 

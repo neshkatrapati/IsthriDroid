@@ -64,6 +64,30 @@ public class ShowTransactionActivity extends Activity {
 		GarmentsController gc = new GarmentsController(getApplicationContext());
 		gc.open();
 		TableLayout tb = new TableLayout(this);
+		TableRow th  = new TableRow(this);
+		
+		TextView h1 = new TextView(this);
+		h1.setText("Garment");
+		h1.setPadding(0, 0, 20, 10);
+		h1.setTextSize(20);
+		
+		th.addView(h1);
+		
+		h1 = new TextView(this);
+		h1.setText("Quantity");
+		h1.setPadding(0, 0, 20, 10);
+		h1.setTextSize(20);
+		
+		th.addView(h1);
+
+		h1 = new TextView(this);
+		h1.setText("Cost");
+		h1.setPadding(0, 0, 20, 10);
+		h1.setTextSize(20);
+		
+		th.addView(h1);
+		
+		tb.addView(th);
 		
 		for (int i = 0; i < list.size(); i++) {
 
@@ -148,21 +172,7 @@ public class ShowTransactionActivity extends Activity {
 			    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			        public void onClick(DialogInterface dialog, int whichButton) {
 			            String value = input.getText().toString();
-			            if (Double.parseDouble(value) > tr.getTotal()){
-			            	
-			            	AlertDialog show = new AlertDialog.Builder(ShowTransactionActivity.this)
-							.setTitle("Wtong Input")
-							.setMessage("Paid amount cannot be greater than Actual amount")
-							.setIcon(android.R.drawable.ic_dialog_alert)
-							.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-							 public void onClick(DialogInterface dialog, int whichButton) {
-							 
-							 }})
-							 .setNegativeButton(android.R.string.no, null).show();
-			            	
-			            }
-			            else{
+			          
 			            	controller.open();
 			            	int id = tr.getId();
 			            	controller.updatePaid(id, Double.parseDouble(value));
@@ -170,7 +180,7 @@ public class ShowTransactionActivity extends Activity {
 			            	
 			            	startActivity(getIntent()); finish();
 
-			            }
+			          
 			            
 			        }
 			    }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

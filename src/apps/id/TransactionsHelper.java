@@ -79,7 +79,9 @@ public int getLastTransaction(){
 	
 	Cursor cursor = database.rawQuery("select max(t_id) as tid from transactions", null);
 	cursor.moveToFirst();
-	return cursor.getInt(0);
+	int item = cursor.getInt(0);
+	cursor.close();
+	return item;
 	
 	
 	
@@ -153,4 +155,114 @@ public void deleteGarment(Garment garment) {
 	database.delete("garments", "_id"
 			+ " = " + id, null);
 	}
+
+public String getFullTotals(){
+	
+	Cursor cursor = database.rawQuery("select sum(tcost) from transactions",null);
+	cursor.moveToFirst();
+	double data = cursor.getDouble(0);
+	cursor.close();
+	return Double.toString(data);
+	
+	}
+public String getFullPaid(){
+	
+	Cursor cursor = database.rawQuery("select distinct(paid) from transactions",null);
+	cursor.moveToFirst();
+	double paid = 0;
+	while (!cursor.isAfterLast()) {
+		paid += cursor.getDouble(0);
+		cursor.moveToNext();
+	}
+	cursor.close();
+	return Double.toString(paid);
+	
+}
+public String getNumberOfTransactions(){
+	
+	Cursor cursor = database.rawQuery("select distinct(t_id) from transactions",null);
+	cursor.moveToFirst();
+	int data = cursor.getCount();
+	cursor.close();
+	return Integer.toString(data);
+	
+}
+public String getNumberOfGarments(){
+	
+	Cursor cursor = database.rawQuery("select sum(qty) from transactions",null);
+	cursor.moveToFirst();
+	int data = cursor.getInt(0);
+	cursor.close();
+	return Integer.toString(data);
+	
+}
+public String getNumberOfTypesOfGarments(){
+	
+	Cursor cursor = database.rawQuery("select distinct(_id) from garments",null);
+	cursor.moveToFirst();
+	int data = cursor.getCount();
+	cursor.close();
+	return Integer.toString(data);
+	
+}
+public String getTransactionsInDebt(){
+	
+	Cursor cursor = database.rawQuery("select distinct(t_id) from transactions",null);
+	cursor.moveToFirst();
+	int data = 0;
+	while (!cursor.isAfterLast()) {
+		int t_id = cursor.getInt(0);
+		Transaction t = getTransaction(cursor.getInt(0));
+		double tot = t.getTotal();
+		Cursor cs = database.rawQuery("select paid from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
+		cs.moveToFirst();
+		double paid = cs.getDouble(0);
+		if((tot - paid) > 0)
+			data++;
+		cursor.moveToNext();
+	}
+	cursor.close();
+	
+	return Integer.toString(data);
+}
+public String getTransactionsInDebit(){
+	
+	Cursor cursor = database.rawQuery("select distinct(t_id) from transactions",null);
+	cursor.moveToFirst();
+	int data = 0;
+	while (!cursor.isAfterLast()) {
+		int t_id = cursor.getInt(0);
+		Transaction t = getTransaction(cursor.getInt(0));
+		double tot = t.getTotal();
+		Cursor cs = database.rawQuery("select paid from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
+		cs.moveToFirst();
+		double paid = cs.getDouble(0);
+		if((paid - tot) >= 1)
+			data++;
+		cursor.moveToNext();
+	}
+	cursor.close();
+	
+	return Integer.toString(data);
+}
+public String getTransactionsPaid(){
+	
+	Cursor cursor = database.rawQuery("select distinct(t_id) from transactions",null);
+	cursor.moveToFirst();
+	int data = 0;
+	while (!cursor.isAfterLast()) {
+		int t_id = cursor.getInt(0);
+		Transaction t = getTransaction(cursor.getInt(0));
+		double tot = t.getTotal();
+		Cursor cs = database.rawQuery("select paid from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
+		cs.moveToFirst();
+		double paid = cs.getDouble(0);
+		if((tot - paid) == 0)
+			data++;
+		cursor.moveToNext();
+	}
+	cursor.close();
+	
+	return Integer.toString(data);
+}
 }

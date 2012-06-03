@@ -50,6 +50,7 @@
         android:layout_height="112dp"
         android:layout_x="167dp"
         android:layout_y="230dp"
-        android:text="Stats" />
+        android:text="Stats" 
+         android:onClick="stats"/>
 
 </AbsoluteLayout>

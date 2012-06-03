@@ -70,4 +70,17 @@ public class IsthriDroidActivity extends Activity {
 		startActivity(newlist);
 
 	}
+	public void stats(View v) {
+
+		Context context = getApplicationContext();
+		CharSequence text = "Opening Stats";
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
+
+		Intent newlist = new Intent(this, StatsActivity.class);
+		startActivity(newlist);
+
+	}
 }

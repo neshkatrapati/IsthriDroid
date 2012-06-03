@@ -192,7 +192,7 @@ public class NewListActivity extends Activity {
 		for (int i = 0; i < bill.length; i++) {
 
 			int gid = Integer.parseInt(bill[i][0]);
-			if (!bill[i][1].matches("")) {
+			if (bill[i][1] != null && !bill[i][1].matches("") ) {
 
 				int qty = Integer.parseInt(bill[i][1]);
 				double cost = Double.parseDouble(bill[i][2]);

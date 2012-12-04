@@ -13,6 +13,7 @@ public class DBHelper extends SQLiteOpenHelper {
 	
 	private static final String QUERY_GARMENTS = "create table garments ( _id integer primary key autoincrement, name text not null, cost real, cdate string, mdate string);";
 	private static final String QUERY_TRANSACTIONS = "create table transactions ( _id integer primary key autoincrement, t_id integer, g_id integer, qty integer, tcost real, paid real, cdate string);";
+	private static final String QUERY_RETURNS = "create table returns ( _id integer primary key autoincrement, qty integer, cdate string);";
 	public DBHelper(Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 		
@@ -23,6 +24,7 @@ public class DBHelper extends SQLiteOpenHelper {
 		// TODO Auto-generated method stub
 		database.execSQL(QUERY_GARMENTS);
 		database.execSQL(QUERY_TRANSACTIONS);
+		database.execSQL(QUERY_RETURNS);
 		
 	}
 

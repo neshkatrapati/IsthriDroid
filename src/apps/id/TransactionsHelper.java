@@ -39,7 +39,12 @@ public void createTransaction(int g_id,int tid,int qty,double cost) {
 	values.put("paid", 0);
 	values.put("cdate", now());
 	
+	ContentValues ret = new ContentValues();
+	ret.put("qty", 0);
+	
 	long insertId = database.insert("transactions", null,values);
+	
+	long insertId2 = database.insert("returns", null,ret);
 	
 }
 public Transaction getTransaction(int t_id){
@@ -75,23 +80,65 @@ public Transaction getTransaction(int t_id){
 	
 	
 }
+public List<Integer> getTransactionIds(){
+	
+	Cursor cursor = database.rawQuery("select distinct(t_id) as tid from transactions", null);
+	cursor.moveToFirst();
+	List<Integer> ids = new ArrayList<Integer>();
+	int curr = 0;
+	while (!cursor.isAfterLast()) {
+		curr = cursor.getInt(0);
+		ids.add(curr);
+		cursor.moveToNext();
+	}
+	cursor.close();
+	return ids;
+	
+} 
+public int[] getAbuttingTransactions(int id){
+	
+	int[] abutting = {-1,-1};
+	int curr = 0;
+	boolean found = false;
+	Cursor cursor = database.rawQuery("select distinct(t_id) as tid from transactions", null);
+	cursor.moveToFirst();
+	while (!cursor.isAfterLast()) {
+		curr = cursor.getInt(0);
+		if (found) {
+			
+			abutting[1] = curr;
+			break;
+		}
+		if (curr == id){
+			
+			found = true;
+			
+		}
+		if (!found){
+			abutting[0] = curr;
+		}
+		
+		cursor.moveToNext();
+	}
+	cursor.close();
+	return abutting;	
+	
+	
+}
 public int getLastTransaction(){
 	
 	Cursor cursor = database.rawQuery("select max(t_id) as tid from transactions", null);
 	cursor.moveToFirst();
 	int item = cursor.getInt(0);
 	cursor.close();
-	return item;
-	
-	
-	
+	return item;	
 	
 }
 public List<Transaction> getAllTransactions(int t_id) {
 	List<Transaction> garments = new ArrayList<Transaction>();
 
 	//String[] columns = {"_id","g_id","t_id","qty","tcost","cdate"};
-	Cursor cursor = database.rawQuery("select * from transactions where t_id = ?",new String[] {Integer.toString(t_id)});
+	Cursor cursor = database.rawQuery("select *,(select r.qty from returns r where r._id=t._id) as rqty,(select g.cost from garments g where g._id=t.g_id) as icost from transactions t where t_id = ?",new String[] {Integer.toString(t_id)});
 
 	cursor.moveToFirst();
 	while (!cursor.isAfterLast()) {
@@ -128,6 +175,8 @@ private Transaction cursorToTransaction(Cursor cursor) {
 	t.setCost(cursor.getDouble(4));
 	t.setPaid(cursor.getDouble(5));
 	t.setCdate(cursor.getString(6));
+	t.setRqty(cursor.getInt(7));
+	t.setIcost(cursor.getDouble(8));
 	return t;
 }
 
@@ -149,12 +198,24 @@ public void updatePaid(int t_id,double paid){
 	
 	
 }
-public void deleteGarment(Garment garment) {
-	long id = garment.getId();
+public void updateReturns(int id,double qty){
+	ContentValues c =  new ContentValues();
+	c.put("qty",qty);
+    database.beginTransaction();
+
+	int rows = database.update("returns", c , "_id = "+Integer.toString(id) , null);
 	
-	database.delete("garments", "_id"
+	database.setTransactionSuccessful();
+	database.endTransaction();
+	
+	
+}
+public void deleteTransaction(Transaction transaction) {
+	long id = transaction.getTid();
+	
+	database.delete("transactions", "t_id"
 			+ " = " + id, null);
-	}
+}
 
 public String getFullTotals(){
 	
@@ -187,6 +248,18 @@ public String getNumberOfTransactions(){
 	return Integer.toString(data);
 	
 }
+
+public String getReturnable(){
+
+	Cursor cursor = database.rawQuery("select sum(t.qty - (select r.qty from returns r where r._id=t._id)) as sum from transactions t",null);
+	cursor.moveToFirst();
+	int data = cursor.getInt(0);
+	cursor.close();
+	return Integer.toString(data);
+	
+	
+}
+
 public String getNumberOfGarments(){
 	
 	Cursor cursor = database.rawQuery("select sum(qty) from transactions",null);
@@ -265,4 +338,5 @@ public String getTransactionsPaid(){
 	
 	return Integer.toString(data);
 }
+
 }

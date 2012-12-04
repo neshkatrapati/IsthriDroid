@@ -7,10 +7,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -42,8 +44,10 @@ public class NewListActivity extends Activity {
 		
 		TextView t = new TextView(getApplicationContext());
 		t.setText("CREATE A NEW LIST");
+		t.setGravity(Gravity.CENTER_HORIZONTAL);
+		t.setBackgroundColor(Color.DKGRAY);
 		t.setPadding(0, 10, 0, 20);
-		t.setTextSize(30);
+		t.setTextSize(25);
 		ll.addView(t);
 		
 		
@@ -75,6 +79,8 @@ public class NewListActivity extends Activity {
 			
 			
 			TableRow tr = new TableRow(this);
+			tr.setGravity(Gravity.CENTER_HORIZONTAL);
+			tr.setPadding(0, 5, 0, 0);
 			
 			LinearLayout lh = new LinearLayout(this);
 			lh.setOrientation(LinearLayout.HORIZONTAL);
@@ -140,8 +146,9 @@ public class NewListActivity extends Activity {
 		}
 		
 		
-		
 		TableRow tr = new TableRow(this);
+
+		tr.setGravity(Gravity.CENTER_HORIZONTAL);
 		
 		tt.setPadding(0, 20,50,0);
 		

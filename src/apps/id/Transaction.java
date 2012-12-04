@@ -7,9 +7,24 @@ public class Transaction {
 	private int tid;
 	private int qty;
 	private double cost;
+	private double icost;
+	public double getIcost() {
+		return icost;
+	}
+	public void setIcost(double icost) {
+		this.icost = icost;
+	}
 	private double total;
 	private double paid;
+	private int rqty;
 	
+	
+	public int getRqty() {
+		return rqty;
+	}
+	public void setRqty(int rqty) {
+		this.rqty = rqty;
+	}
 	public double getPaid() {
 		return paid;
 	}

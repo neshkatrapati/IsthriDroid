@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -35,8 +36,10 @@ public class SettingsActivity extends Activity {
 
 		TextView t = new TextView(getApplicationContext());
 		t.setText("SETTINGS >> ADD Garments");
+		t.setGravity(Gravity.CENTER_HORIZONTAL);
+		t.setBackgroundColor(Color.DKGRAY);
 		t.setPadding(0, 10, 0, 20);
-		t.setTextSize(25);
+		t.setTextSize(20);
 
 		ll.addView(t);
 		
@@ -64,14 +67,19 @@ public class SettingsActivity extends Activity {
 
 		TableRow tr1 = new TableRow(this);
 		
+		tr1.setPadding(0, 5, 0, 0);
+		tr1.setGravity(Gravity.CENTER_HORIZONTAL);
+		
 		final EditText et = new EditText(getApplicationContext());
 		et.setTextSize(15);
+		et.setText("Garment");
 		et.setEms(9);
 		tr1.addView(et);
 
 		final EditText et2 = new EditText(getApplicationContext());
 		et2.setTextSize(15);
 		et2.setEms(5);
+		et2.setText("Price");
 		et2.setInputType(InputType.TYPE_CLASS_NUMBER);
 		tr1.addView(et2);
 
@@ -143,8 +151,10 @@ public class SettingsActivity extends Activity {
 
 		TextView t = new TextView(getApplicationContext());
 		t.setText("SETTINGS >> Existing Garments");
+		t.setGravity(Gravity.CENTER_HORIZONTAL);
+		t.setBackgroundColor(Color.DKGRAY);
 		t.setPadding(0, 10, 0, 20);
-		t.setTextSize(25);
+		t.setTextSize(20);
 
 		ll.addView(t);
 
@@ -161,11 +171,13 @@ public class SettingsActivity extends Activity {
 			final double garment_cost = garments.get(i).getCost();
 
 			TableRow tr = new TableRow(this);
+			tr.setGravity(Gravity.CENTER_HORIZONTAL);
+			tr.setPadding(0, 5, 0, 0);
 			
 			TextView tv = new TextView(getApplicationContext());
 			tv.setTextSize(20);
 			tv.setText(garment_name);
-			tv.setPadding(0, 0, 20, 10);
+			tv.setPadding(0, 5, 20, 10);
 			tr.addView(tv);
 
 			TextView tc = new TextView(getApplicationContext());
